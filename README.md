@@ -2,7 +2,7 @@
 
 ## Project Overview
 This project demonstrates manual & automation testing of Falaq Food e-commerce web application. It includes functional testing of major user workflows such as user authentication, product browsing, cart management, checkout, and order placement. The project was done for second production of Falaq Food E-commerce site. 
----
+
 
 ## Project Objectives
 - Verify core functionality of the e-commerce application.
