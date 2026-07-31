@@ -53,13 +53,13 @@ The following modules were tested:
 
 ## Repository Structure
 
-├── Test Plan
-├── Test Scenarios
-├── Test Cases
-├── Bug Reports
-├── Test Summary Report
-├── Screenshots
-└── README.md
+── Test Plan
+── Test Scenarios
+── Test Cases
+── Bug Reports
+── Test Summary Report
+── Screenshots
+── README.md
 
 
 
