@@ -1,4 +1,18 @@
-# 🛒 Falaq Food – E-commerce Storefront Testing Project
+# 🛒 Falaq Food E-commerce Storefront Testing
+
+> A comprehensive QA portfolio project showcasing my work in **Manual Testing and Test Automation** on the Falaq Food e-commerce storefront, covering functional validation, end-to-end workflows, defect reporting, and Selenium-based regression automation.
+
+![Role](https://img.shields.io/badge/Role-SQA%20Engineer-blue)
+![Testing](https://img.shields.io/badge/Testing-Manual-orange)
+![Automation](https://img.shields.io/badge/Automation-Selenium-green)
+![Language](https://img.shields.io/badge/Language-Java-red)
+![Framework](https://img.shields.io/badge/Framework-TestNG-yellow)
+![Tool](https://img.shields.io/badge/Tool-Jira-blue)
+![Build](https://img.shields.io/badge/Build-Maven-C71A36)
+![Pattern](https://img.shields.io/badge/Pattern-POM-purple)
+![System](https://img.shields.io/badge/System-E--Commerce-brightgreen)
+
+---
 
 ## 📌 Project Overview
 
