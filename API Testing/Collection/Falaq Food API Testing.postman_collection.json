@@ -1,0 +1,542 @@
+{
+  "info": {
+    "_postman_id": "9dbe577f-4c7d-4e1c-8b64-c0d2edc7b3dc",
+    "name": "Falaq Food API Testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57803642",
+    "_collection_link": "https://go.postman.co/collection/57803642-9dbe577f-4c7d-4e1c-8b64-c0d2edc7b3dc?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "01 - Products",
+      "item": [
+        {
+          "name": "Get Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Product ID is correct\", function () {\r",
+                  "    const data = pm.response.json();\r",
+                  "\r",
+                  "    pm.expect(data.id).to.eql(\r",
+                  "        \"019e44fc-a9b3-7a0b-ad14-39d717471c50\"\r",
+                  "    );\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Product is active\", function () {\r",
+                  "    const data = pm.response.json();\r",
+                  "\r",
+                  "    pm.expect(data.status).to.eql(\"Active\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Product has at least one variant\", function () {\r",
+                  "    const data = pm.response.json();\r",
+                  "\r",
+                  "    pm.expect(data.variants).to.be.an(\"array\").that.is.not.empty;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/storefront/catalog/products/019e44fc-a9b3-7a0b-ad14-39d717471c50",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "storefront",
+                "catalog",
+                "products",
+                "019e44fc-a9b3-7a0b-ad14-39d717471c50"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "02 - Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Order ID is present\", function () {\r",
+                  "    pm.expect(response.orderId).to.be.a(\"string\").and.not.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Order number is present\", function () {\r",
+                  "    pm.expect(response.orderNumber).to.be.a(\"string\").and.not.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Order number has expected format\", function () {\r",
+                  "    pm.expect(response.orderNumber).to.match(/^ORD-\\d{8}-[A-Z0-9]+$/);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Order total is a positive number\", function () {\r",
+                  "    pm.expect(response.total).to.be.a(\"number\");\r",
+                  "    pm.expect(response.total).to.be.above(0);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Placed time is present\", function () {\r",
+                  "    pm.expect(response.placedAtUtc).to.be.a(\"string\").and.not.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Account status is present\", function () {\r",
+                  "    pm.expect(response.accountStatus).to.be.a(\"string\").and.not.empty;\r",
+                  "});\r",
+                  "\r",
+                  "// Save values for later tests\r",
+                  "pm.collectionVariables.set(\"order_id\", response.orderId);\r",
+                  "pm.collectionVariables.set(\"order_number\", response.orderNumber);\r",
+                  "pm.collectionVariables.set(\"order_total\", response.total);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"appliedCouponCode\": null,\r\n  \"customerContact\": {\r\n    \"name\": \"Test User\",\r\n    \"phone\": \"01700000000\",\r\n    \"email\": null\r\n  },\r\n  \"customerNote\": null,\r\n  \"items\": [\r\n    {\r\n      \"productId\": \"019dc313-0d61-7e57-80a4-92808f944b8a\",\r\n      \"variantId\": \"019dc313-0d61-7dc6-91ac-c886d32944ae\",\r\n      \"quantity\": 2\r\n    }\r\n  ],\r\n  \"shippingAddress\": {\r\n    \"recipientName\": \"Test User\",\r\n    \"recipientPhone\": \"01700000000\",\r\n    \"areaId\": \"aaaa0000-0001-0000-0000-000000000001\",\r\n    \"areaName\": \"Default\",\r\n    \"cityId\": \"aaaa0000-0000-0000-0000-000000000001\",\r\n    \"cityName\": \"Inside Dhaka\",\r\n    \"streetDetails\": \"Test Address\",\r\n    \"apartment\": null,\r\n    \"buildingName\": null,\r\n    \"deliveryInstructions\": null,\r\n    \"floor\": null,\r\n    \"landmark\": null\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/storefront/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "storefront",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "03 - Negative Tests",
+      "item": [
+        {
+          "name": "Get Product - Invalid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Error title is Resource not found\", function () {\r",
+                  "    pm.expect(response.title).to.eql(\"Resource not found.\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response status is 404\", function () {\r",
+                  "    pm.expect(response.status).to.eql(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/storefront/catalog/products/00000000-0000-0000-0000-000000000000",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "storefront",
+                "catalog",
+                "products",
+                "00000000-0000-0000-0000-000000000000"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Order - Invalid Quantity",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Order is not created\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(201);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\"items\": [\r\n  {\r\n    \"productId\": \"019dc313-0d61-7e57-80a4-92808f944b8a\",\r\n    \"variantId\": \"019dc313-0d61-7dc6-91ac-c886d32944ae\",\r\n    \"quantity\": 0\r\n  }\r\n],\r\n\"shippingAddress\": {\r\n  \"recipientName\": \"{{test_name}}\",\r\n  \"recipientPhone\": \"{{test_phone}}\",\r\n  \"areaId\": \"aaaa0000-0001-0000-0000-000000000001\",\r\n  \"areaName\": \"Default\",\r\n  \"cityId\": \"aaaa0000-0000-0000-0000-000000000001\",\r\n  \"cityName\": \"Inside Dhaka\",\r\n  \"streetDetails\": \"Test Address\",\r\n  \"apartment\": null,\r\n  \"buildingName\": null,\r\n  \"deliveryInstructions\": null,\r\n  \"floor\": null,\r\n  \"landmark\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/storefront/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "storefront",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Invalid Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "const output = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"No products shown for special characters\", function () {\r",
+                  "    pm.expect(output).to.be.an(\"array\").that.is.empty;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/storefront/catalog/products/?s=%26^%$&limit=8",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "storefront",
+                "catalog",
+                "products",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "s",
+                  "value": "%26^%$"
+                },
+                {
+                  "key": "limit",
+                  "value": "8"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Invalid Limit",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/storefront/catalog/products/quick-search?s=methi&limit=abc",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "storefront",
+                "catalog",
+                "products",
+                "quick-search"
+              ],
+              "query": [
+                {
+                  "key": "s",
+                  "value": "methi"
+                },
+                {
+                  "key": "limit",
+                  "value": "abc"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "00 - Search",
+      "item": [
+        {
+          "name": "Search Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const value = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Response is an array\", function () {\r",
+                  "    pm.expect(value).to.be.an(\"array\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"At least one product is returned\", function () {\r",
+                  "    pm.expect(value.length).to.be.greaterThan(0);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/storefront/catalog/products/quick-search?s=methi&limit=8",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "storefront",
+                "catalog",
+                "products",
+                "quick-search"
+              ],
+              "query": [
+                {
+                  "key": "s",
+                  "value": "methi"
+                },
+                {
+                  "key": "limit",
+                  "value": "8"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Select Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response is JSON\", function () {\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const result = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Response contains product data\", function () {\r",
+                  "    pm.expect(result).to.be.an(\"object\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Product has ID\", function () {\r",
+                  "    pm.expect(result).to.have.property(\"id\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Product has name\", function () {\r",
+                  "    pm.expect(result).to.have.property(\"name\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Product slug is correct\", function () {\r",
+                  "    pm.expect(result.slug).to.equal(\"methi-mix\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/storefront/catalog/products/slug/methi-mix",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "storefront",
+                "catalog",
+                "products",
+                "slug",
+                "methi-mix"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "order_id",
+      "value": ""
+    },
+    {
+      "key": "order_number",
+      "value": ""
+    },
+    {
+      "key": "order_total",
+      "value": ""
+    }
+  ]
+}
