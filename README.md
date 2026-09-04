@@ -176,7 +176,7 @@ Validated:
 
 ## 📊 API Execution & Reporting
 
-<img width="696" height="697" alt="image" src="https://github.com/user-attachments/assets/8d7a94dc-604b-4c9c-9223-26a471dcbc07" />
+<img width="696" height="697" alt="image" src="https://github.com/user-attachments/assets/32d91771-899b-400b-b95e-cb2985e21ab3" />
 
 API collections can be executed through **Postman** or **Newman**.
 
