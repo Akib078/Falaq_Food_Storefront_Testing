@@ -88,6 +88,9 @@ Designed and executed **40+ test cases** covering:
 
 Identified and documented defects using **Jira**, including reproduction steps, expected/actual results, severity, priority, and supporting evidence.
 
+<img width="1335" height="795" alt="image" src="https://github.com/user-attachments/assets/b0af1efa-1ee5-4f72-a2cf-ecf23d65a98e" />
+
+
 ---
 
 # 🤖 Automation Testing
