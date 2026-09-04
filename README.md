@@ -121,6 +121,8 @@ The framework includes:
 * Structured test organization
 * Regression automation
 
+<img width="1918" height="1025" alt="image" src="https://github.com/user-attachments/assets/75ec1d4e-e25a-4584-be67-125ecc580585" />
+
 ## ⚙️ Automated Workflows
 
 Automated critical workflows including:
