@@ -29,6 +29,8 @@ The project covers functional validation of core e-commerce workflows, UI and us
 **Defect Tracking:** Jira  
 **Build Tool:** Maven
 
+<img width="955" height="475" alt="Storefront" src="https://github.com/user-attachments/assets/412c5bc4-97ef-41f3-9606-7bb8909bd668" />
+
 ---
 
 ## 🎯 Objectives
